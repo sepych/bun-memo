@@ -29,7 +29,7 @@ const parser = StructuredOutputParser.fromNamesAndDescriptions({
     output: "The output of the code",
 });
 const codeEmulator =  PromptTemplate.fromTemplate(`
-You are capable of running python code in your mind. Emulate the code in your mind and give the output.
+You are capable of running pseudo code in your mind. Emulate the code in your mind and give the output.
 input: {input}
 code: {code}
 
@@ -51,12 +51,12 @@ export async function chatAgent(human: string, ai: string): Promise<string> {
     console.log('pseudo-code', chalk.yellow(result));
     const nextText = await promptCode.format({ code: result });
 
-    const nextResult = await model.invoke(nextText);
-    console.log('python-code', chalk.yellow(nextResult));
+    // const nextResult = await model.invoke(nextText);
+    // console.log('python-code', chalk.yellow(nextResult));
 
 
     const finalResult = await chain.invoke({
-        code: nextResult,
+        code: nextText,
         input: human,
         format_instructions: parser.getFormatInstructions(),
     });
