@@ -10,6 +10,7 @@ import type { BaseMessage } from "langchain/schema";
 import {shellAgent} from "./shell-agent.ts";
 import {$ as shell} from "bun";
 import {fetchFromMemory, memoryAgent, saveInnerMemory} from "./memory-agent.ts";
+import {chatAgent} from "./chat-agent.ts";
 
 
 const llm = new ChatOpenAI({
@@ -116,11 +117,13 @@ async function conversation() {
             input: answers.answer,
             chat_history: chatHistory,
         });
+        const proxyResp = await chatAgent(answers.answer, res.output);
+
         chatHistory.push(new HumanMessage(answers.answer));
-        chatHistory.push(new AIMessage(res.output));
+        chatHistory.push(new AIMessage(proxyResp));
 
         // const res = await chain.call({input: answers.answer});
-        console.log(chalk.magenta(res.output));
+        console.log(chalk.magenta(proxyResp));
     }
 
     await conversation();
