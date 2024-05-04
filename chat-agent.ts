@@ -43,9 +43,8 @@ const chain = RunnableSequence.from([
 ]);
 
 
-export async function chatAgent(human: string, ai: string): Promise<string> {
-    const text = await prompt.format({ human: human,
-        ai: ai, });
+export async function chatAgent(human: string): Promise<string> {
+    const text = await prompt.format({ human: human });
 
     const result = await model.invoke(text);
     console.log('pseudo-code', chalk.yellow(result));
@@ -63,3 +62,4 @@ export async function chatAgent(human: string, ai: string): Promise<string> {
     console.log('code-emulator', chalk.yellow(finalResult.output));
     return finalResult.output;
 }
+
