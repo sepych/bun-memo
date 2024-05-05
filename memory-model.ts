@@ -52,7 +52,7 @@ export async function loadFromDisk(daysInPast: number = 7) {
         }
 
 
-        const bunFile = await Bun.file(`${directory}/${file}`);
+        const bunFile = Bun.file(`${directory}/${file}`);
         const content = await bunFile.text();
         const memoryVectors = JSON.parse(content) as MemoryVector[];
         const embeddingArr = memoryVectors.map(({content, embedding, metadata}) => {
